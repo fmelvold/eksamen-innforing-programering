@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verdensland</title>
+    <style>
+           body {
+            background-color: #bbdefa;
+            color: #020000;
+            font-family: 'Titillium Web', sans-serif;
+            text-align: center;
+        }
+        #start{
+            background-color: #a5a5a5;
+            border: 2px solid;
+            color: rgb(2, 0, 0);
+            padding: 15px;
+            text-align: center;
+            font-size: 25px;
+            margin: 80px;
+            cursor: pointer;
+            width: 20%;
+        }
+
+
+        #skrivland {
+        height: 40px;
+        width: 200px;
+        border: 4px solid;
+        color: black;
+
+    }
+
+        #wordlist {
+        height: 400px;
+        padding: 10px;
+        margin: 10px auto;
+        width: 400px;
+        border: 4px solid;
+        color: black;
+        text-align: center;
+        position: center;
+        list-style-type: none;
+        font-size: 20px;
+    }
+
+    
+    #restart {
+            background-color: #b9b9b9;
+            width: 100%;
+            padding: 14px 28px;
+            font-size: 40px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+    #left {
+            float: left;
+            margin-left: 570px;
+        }
+
+        #right {
+            float: right;
+            margin-right: 570px;
+        }
+
+        #sekunder{
+            font-size: 20px;
+        }
+
+        #gametime {
+            font-size: 40px;
+        }
+    </style>
+</head>
+<body>
+    <p><button id="start" onclick="playGame()">START SPILLET</button></p>
+    <section id="gamearea">
+        <div id="left">
+            <input id="skrivland" placeholder="Skriv inn land..." disabled />
+            <div id="time">
+                <p id="sekunder">Sekunder igjen:</p>
+                <p id="gametime"></p>
+            </div>
+        </div>
+    <div id="right">
+    <h1 id="result"></h1>
+    <h4 id="score"></h4>
+    <textarea id="wordlist" disabled ></textarea>
+    </div>
+    </section>
+    <script>
+      const countryList = [
+	"Afghanistan",
+	"Albania",
+	"Algeria",
+	"American Samoa",
+	"Andorra",
+	"Angola",
+	"Anguilla",
+	"Antarctica",
+	"Antigua and Barbuda",
+	"Argentina",
+	"Armenia",
+	"Aruba",
+	"Australia",
+	"Austria",
+	"Azerbaijan",
+	"Bahamas",
+	"Bahrain",
+	"Bangladesh",
+	"Barbados",
+	"Belarus",
+	"Belgium",
+	"Belize",
+	"Benin",
+	"Bermuda",
+	"Bhutan",
+	"Bolivia",
+	"Bonaire, Sint Eustatius and Saba",
+	"Bosnia and Herzegovina",
+	"Botswana",
+	"Bouvet Island",
+	"Brazil",
+	"British Indian Ocean Territory",
+	"Brunei Darussalam",
+	"Bulgaria",
+	"Burkina Faso",
+	"Burundi",
+	"Cabo Verde",
+	"Cambodia",
+	"Cameroon",
+	"Canada",
+	"Cayman Islands",
+	"Central African Republic",
+	"Chad",
+	"Chile",
+	"China",
+	"Christmas Island",
+	"Cocos Islands",
+	"Colombia",
+	"Comoros",
+	"The Democratic Republic of the Congo",
+	"The Congo",
+	"Cook Islands",
+	"Costa Rica",
+	"Croatia",
+	"Cuba",
+	"Curaçao",
+	"Cyprus",
+	"Czechia",
+	"Côte d'Ivoire",
+	"Denmark",
+	"Djibouti",
+	"Dominica",
+	"Dominican Republic",
+	"Ecuador",
+	"Egypt",
+	"El Salvador",
+	"Equatorial Guinea",
+	"Eritrea",
+	"Estonia",
+	"Eswatini",
+	"Ethiopia",
+	"Falkland Islands",
+	"Faroe Islands",
+	"Fiji",
+	"Finland",
+	"France",
+	"French Guiana",
+	"French Polynesia",
+	"French Southern Territories",
+	"Gabon",
+	"Gambia",
+	"Georgia",
+	"Germany",
+	"Ghana",
+	"Gibraltar",
+	"Greece",
+	"Greenland",
+	"Grenada",
+	"Guadeloupe",
+	"Guam",
+	"Guatemala",
+	"Guernsey",
+	"Guinea",
+	"Guinea-Bissau",
+	"Guyana",
+	"Haiti",
+	"Heard Island and McDonald Islands",
+	"Holy See",
+	"Honduras",
+	"Hong Kong",
+	"Hungary",
+	"Iceland",
+	"India",
+	"Indonesia",
+	"Iran",
+	"Iraq",
+	"Ireland",
+	"Isle of Man",
+	"Israel",
+	"Italy",
+	"Jamaica",
+	"Japan",
+	"Jersey",
+	"Jordan",
+	"Kazakhstan",
+	"Kenya",
+	"Kiribati",
+	"The Democratic People's Republic of Korea",
+	"The Republic of Korea",
+	"Kuwait",
+	"Kyrgyzstan",
+	"Lao People's Democratic Republic",
+	"Latvia",
+	"Lebanon",
+	"Lesotho",
+	"Liberia",
+	"Libya",
+	"Liechtenstein",
+	"Lithuania",
+	"Luxembourg",
+	"Macao",
+	"Madagascar",
+	"Malawi",
+	"Malaysia",
+	"Maldives",
+	"Mali",
+	"Malta",
+	"Marshall Islands",
+	"Martinique",
+	"Mauritania",
+	"Mauritius",
+	"Mayotte",
+	"Mexico",
+	"Federated States of Micronesia",
+	"The Republic of Moldova",
+	"Monaco",
+	"Mongolia",
+	"Montenegro",
+	"Montserrat",
+	"Morocco",
+	"Mozambique",
+	"Myanmar",
+	"Namibia",
+	"Nauru",
+	"Nepal",
+	"The Netherlands",
+	"New Caledonia",
+	"New Zealand",
+	"Nicaragua",
+	"Niger  ",
+	"Nigeria",
+	"Niue",
+	"Norfolk Island",
+	"Northern Mariana Islands",
+	"Norway",
+	"Oman",
+	"Pakistan",
+	"Palau",
+	"Palestine, State of",
+	"Panama",
+	"Papua New Guinea",
+	"Paraguay",
+	"Peru",
+	"Philippines",
+	"Pitcairn",
+	"Poland",
+	"Portugal",
+	"Puerto Rico",
+	"Qatar",
+	"Republic of North Macedonia",
+	"Romania",
+	"Russian Federation",
+	"Rwanda",
+	"Réunion",
+	"Saint Barthélemy",
+	"Saint Helena, Ascension and Tristan da Cunha",
+	"Saint Kitts and Nevis",
+	"Saint Lucia",
+	"Saint Martin",
+	"Saint Pierre and Miquelon",
+	"Saint Vincent and the Grenadines",
+	"Samoa",
+	"San Marino",
+	"Sao Tome and Principe",
+	"Saudi Arabia",
+	"Senegal",
+	"Serbia",
+	"Seychelles",
+	"Sierra Leone",
+	"Singapore",
+	"Sint Maarten",
+	"Slovakia",
+	"Slovenia",
+	"Solomon Islands",
+	"Somalia",
+	"South Africa",
+	"South Georgia and the South Sandwich Islands",
+	"South Sudan",
+	"Spain",
+	"Sri Lanka",
+	"Sudan",
+	"Suriname",
+	"Svalbard and Jan Mayen",
+	"Sweden",
+	"Switzerland",
+	"Syrian Arab Republic",
+	"Taiwan",
+	"Tajikistan",
+	"Tanzania, United Republic of",
+	"Thailand",
+	"Timor-Leste",
+	"Togo",
+	"Tokelau",
+	"Tonga",
+	"Trinidad and Tobago",
+	"Tunisia",
+	"Turkey",
+	"Turkmenistan",
+	"Turks and Caicos Islands",
+	"Tuvalu",
+	"Uganda",
+	"Ukraine",
+	"United Arab Emirates",
+	"United Kingdom of Great Britain and Northern Ireland",
+	"United States Minor Outlying Islands",
+	"United States of America",
+	"Uruguay",
+	"Uzbekistan",
+	"Vanuatu",
+	"Venezuela (Bolivarian Republic of)",
+	"Viet Nam",
+	"Virgin Islands (British)",
+	"Virgin Islands (U.S.)",
+	"Wallis and Futuna",
+	"Western Sahara",
+	"Yemen",
+	"Zambia",
+	"Zimbabwe",
+	"Åland Islands"
+];
+		//Deklarere de ulike delene fra html
+        let startButton = document.getElementById("playGame");
+        let skrivlandField = document.getElementById("skrivland");
+        let resultField = document.getElementById("result");
+        let wordlistField = document.getElementById("wordlist");
+        let scoreField = document.getElementById("score");
+        let score = 0;
+        let guessedCountries = [];
+		document.getElementById("gametime").innerHTML = 60;
+		//Når spillet starter
+        function playGame() { 
+		//60sek playtime
+        document.getElementById("gametime").innerHTML = 60;
+		//Åpner opp for å skrive i input id 
+        document.getElementById("skrivland").disabled = false; 
+        timer = setInterval(countDown, 1000); 
+        //Bruker ""; under her til å restarte/fjerne fra gamearea etter man har trykket på restart
+        resultField.innerHTML=""; 
+        scoreField.innerHTML="";
+        wordlistField.value = "";
+        skrivlandField.value = "";
+        scoreField.value = "";
+        guessedCountries = [];
+		//Under restart går score tilbake til 0
+        score = 0; 
+        //Under restart starter teksten med svart tekst
+        document.getElementById("gametime").style.color = "black";
+        document.getElementById("time").style.color = "black";
+		//Score synlig når spillet er startet
+        document.getElementById('score').style.visibility='visible'; 
+        }
+
+        function countDown() {
+            var seconds = (document.getElementById("gametime").innerHTML); 
+            seconds--;
+            document.getElementById("gametime").innerHTML = seconds;
+        //Ulike if til hva som skal skje etter counter har nådd en viss tid
+            if (seconds < 31) {
+                document.getElementById("gametime").style.color = "orange";
+                document.getElementById("time").style.color = "orange";
+            }
+
+            if (seconds < 11) {
+                document.getElementById("gametime").style.color = "red";
+                document.getElementById("time").style.color = "red";
+            }
+            
+            if (seconds == 0) {
+				//Skrur av muligheten til å skrive i teksten
+                document.getElementById("skrivland").disabled = true; 
+				//stopper tiden
+                clearInterval(timer);
+				//Bruker innerhtml til å få opp teksten + score
+                result.innerHTML="SPILLET ER OVER! Du klarte: "+score+ " land"; 
+				//Fjerner antall gjettet fra gamearea
+                document.getElementById('score').style.visibility='hidden';  
+            }
+        }
+
+        //EventListener som kjører funksjonen start når button er klikket
+        document.getElementById("start").addEventListener("click", start);
+
+    
+		//EventListener som kjører funksjonen event når keypress er brukt
+        document.getElementById("skrivland").addEventListener("keypress", function(e){ 
+		//keycode til enter-tasten
+        if((event.keyCode === 13)){ 
+			//index som går igjennom hver bokstav i countryList
+            for(let i = 0; i<countryList.length; i++){ 
+			//hvis value er lik et ord i countryList, toUpperCase slik at man kan svare med både stor og liten bokstav
+            if(this.value.toUpperCase()===countryList[i].toUpperCase()){
+				//Hindrer at samme land kan bli gjettet flere ganger
+                if (!guessedCountries.includes(this.value.toUpperCase())){ 
+                    guessedCountries.push(this.value.toUpperCase())
+					//Legger riktig svar inn i wordlist og bruker \n for å sette svarene opp i listeformat
+                    wordlistField.value += this.value+"\n"; 
+					//Plusser på 1 til score ved riktig svar
+                    score= score+1; 
+					//Legger inn gjettet land tekst med score ved bruk av innerhtml
+                    scoreField.innerHTML="Gjettede land: "+score; 
+            }
+        }
+        }
+		//Fjerner teksen i input etter enter er trykket
+        document.getElementById("skrivland").value = ""; 
+    }
+})
+    </script>
+</body>
+</html>
